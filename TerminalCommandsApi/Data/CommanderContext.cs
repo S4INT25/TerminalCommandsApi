@@ -1,9 +1,10 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TerminalCommands.Domain.Models;
 
-namespace TerminalCommands.Data
+namespace TerminalCommandsApi.Data
 {
-    public class CommanderContext : DbContext
+    public class CommanderContext : IdentityDbContext
     {
         public CommanderContext(DbContextOptions<CommanderContext> options) : base(options)
         {

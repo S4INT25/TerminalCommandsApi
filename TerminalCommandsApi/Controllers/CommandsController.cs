@@ -1,18 +1,19 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using TerminalCommands.Data;
 using TerminalCommands.Domain.Models;
 using TerminalCommands.Dto;
 
-namespace TerminalCommands.Controllers
+namespace TerminalCommandsApi.Controllers
 
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CommandsController : ControllerBase
     {
         private readonly ICommanderRepo _commanderRepo;
@@ -34,7 +35,6 @@ namespace TerminalCommands.Controllers
                 return NoContent();
             }
 
-            
 
             return Ok(_mapper.Map<IEnumerable<CommandReadDto>>(commands));
         }
@@ -61,7 +61,7 @@ namespace TerminalCommands.Controllers
             if (_commanderRepo.SaveChanges())
             {
                 return Created("test", _mapper.Map<CommandReadDto>(commandModel));
-            }   
+            }
 
             return BadRequest();
         }
