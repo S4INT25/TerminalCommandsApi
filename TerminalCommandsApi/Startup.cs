@@ -92,9 +92,9 @@ namespace TerminalCommandsApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TerminalCommandsApi v1"));
             }
 
-            app.ConfigureCommanderExceptionHandler();
+           
             app.UseHttpsRedirection();
-
+            app.ConfigureCommanderExceptionHandler();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
