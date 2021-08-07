@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Logging;
-using TerminalCommands.Middlewares;
+using TerminalCommandsApi.Middlewares;
 
-namespace TerminalCommands.Extensions
+namespace TerminalCommandsApi.Extensions
 {
     public static class ExceptionMiddlewareExtension
     {

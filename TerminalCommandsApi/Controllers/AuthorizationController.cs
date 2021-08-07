@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -44,7 +43,7 @@ namespace TerminalCommandsApi.Controllers
 
             var newUser = new IdentityUser {Email = user.Email, UserName = user.UserName};
             var isCreated = await _userManager.CreateAsync(newUser, user.Password);
-            if (!isCreated.Succeeded) return BadRequest(new {message = $"Failed to create user {isCreated.Errors.First().Description} "});
+                if (!isCreated.Succeeded) return BadRequest(new {message = $"Failed to create user {isCreated.Errors.First().Description} "});
             var jwtToken = GenerateJwtToken(newUser);
 
             return Ok(new SuccessDto()

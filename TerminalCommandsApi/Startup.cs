@@ -12,9 +12,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using TerminalCommands.Data;
-using TerminalCommands.Extensions;
 using TerminalCommandsApi.Configurations;
 using TerminalCommandsApi.Data;
+using TerminalCommandsApi.Extensions;
 
 namespace TerminalCommandsApi
 {

@@ -1,12 +1,14 @@
+using System.ComponentModel.DataAnnotations;
 using TerminalCommands.Domain.Enums;
-using TerminalCommands.Domain.Models;
 
-namespace TerminalCommands.Dto
+namespace TerminalCommandsApi.Dto.Request
 {
     public class CommandCreateDto
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public Platform Platform { get; set; }
+        [Required] public string Name { get; set; }
+
+        [Required] public string Description { get; set; }
+
+        [Required] public Platform Platform { get; set; }
     }
 }

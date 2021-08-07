@@ -1,8 +1,9 @@
 using AutoMapper;
 using TerminalCommands.Domain.Models;
 using TerminalCommands.Dto;
+using TerminalCommandsApi.Dto.Request;
 
-namespace TerminalCommands.Profiles
+namespace TerminalCommandsApi.Profiles
 {
     public class CommandsProfile : Profile
     {

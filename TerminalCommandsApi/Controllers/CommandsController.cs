@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using TerminalCommands.Data;
 using TerminalCommands.Domain.Models;
 using TerminalCommands.Dto;
+using TerminalCommandsApi.Dto.Request;
 
 namespace TerminalCommandsApi.Controllers
 
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CommandsController : ControllerBase
     {
