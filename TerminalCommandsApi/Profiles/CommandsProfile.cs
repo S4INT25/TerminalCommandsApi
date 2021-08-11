@@ -1,7 +1,7 @@
 using AutoMapper;
-using TerminalCommands.Domain.Models;
-using TerminalCommands.Dto;
-using TerminalCommandsApi.Dto.Request;
+using TerminalCommandsApi.Domain.Dto.Request;
+using TerminalCommandsApi.Domain.Dto.Response;
+using TerminalCommandsApi.Domain.Models;
 
 namespace TerminalCommandsApi.Profiles
 {

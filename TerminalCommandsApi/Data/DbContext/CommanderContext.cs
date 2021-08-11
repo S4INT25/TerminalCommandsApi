@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TerminalCommands.Domain.Models;
+using TerminalCommandsApi.Domain;
+using TerminalCommandsApi.Domain.Models;
 
-namespace TerminalCommandsApi.Data
+namespace TerminalCommandsApi.Data.DbContext
 {
     public class CommanderContext : IdentityDbContext
     {
@@ -11,6 +12,7 @@ namespace TerminalCommandsApi.Data
         }
 
         public DbSet<Command> Commands { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
 
     }

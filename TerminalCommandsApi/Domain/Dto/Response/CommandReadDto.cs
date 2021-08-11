@@ -1,6 +1,6 @@
-using TerminalCommands.Domain.Enums;
+using TerminalCommandsApi.Domain.Enums;
 
-namespace TerminalCommands.Dto
+namespace TerminalCommandsApi.Domain.Dto.Response
 {
     public class CommandReadDto
     {

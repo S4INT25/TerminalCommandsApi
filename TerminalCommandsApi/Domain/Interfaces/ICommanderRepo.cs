@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using TerminalCommands.Domain.Models;
+using TerminalCommandsApi.Domain.Models;
 
-namespace TerminalCommands.Data
+namespace TerminalCommandsApi.Domain.Interfaces
 {
     public interface ICommanderRepo
     {

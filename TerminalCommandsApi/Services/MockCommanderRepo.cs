@@ -1,17 +1,18 @@
 using System.Collections.Generic;
-using TerminalCommands.Domain.Enums;
-using TerminalCommands.Domain.Models;
+using TerminalCommandsApi.Domain.Enums;
+using TerminalCommandsApi.Domain.Interfaces;
+using TerminalCommandsApi.Domain.Models;
 
-namespace TerminalCommands.Data
+namespace TerminalCommandsApi.Services
 {
     public class MockCommanderRepo : ICommanderRepo
     {
 
         private readonly List<Command> _commands = new()
         {
-            new Command() {Id = 1, Name = "dir", Description = "Directory listing", Platform = Platform.Windows},
-            new Command() {Id = 2, Name = "ls-ls", Description = "Directory listing", Platform = Platform.Linux},
-            new Command() {Id = 3, Name = "ls", Description = "Directory listing", Platform = Platform.Mac}
+            new Command { Id = 1, Name = "dir", Description = "Directory listing", Platform = Platform.Windows },
+            new Command { Id = 2, Name = "ls-ls", Description = "Directory listing", Platform = Platform.Linux },
+            new Command { Id = 3, Name = "ls", Description = "Directory listing", Platform = Platform.Mac }
         };
 
 
@@ -44,6 +45,6 @@ namespace TerminalCommands.Data
         {
             throw new System.NotImplementedException();
         }
-        
+
     }
 }

@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TerminalCommands.Domain.Models;
-using TerminalCommandsApi.Data;
+using TerminalCommandsApi.Data.DbContext;
+using TerminalCommandsApi.Domain.Interfaces;
+using TerminalCommandsApi.Domain.Models;
 
-namespace TerminalCommands.Data
+namespace TerminalCommandsApi.Services
 {
     public class SqlCommanderRepo : ICommanderRepo
     {
@@ -48,7 +49,7 @@ namespace TerminalCommands.Data
 
         public void DeleteAllCommands()
         {
-           _context.RemoveRange(_context.Commands);
+            _context.RemoveRange(_context.Commands);
         }
     }
 }

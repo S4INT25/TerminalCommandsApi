@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace TerminalCommands.Domain.Models
+namespace TerminalCommandsApi.Domain.Models
 {
     public class CommanderException
     {

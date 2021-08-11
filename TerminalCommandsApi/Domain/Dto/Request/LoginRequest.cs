@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TerminalCommandsApi.Dto.Request
+namespace TerminalCommandsApi.Domain.Dto.Request
 {
-    public class RegistrationDto
+    public class LoginRequest
     {
-        [Required] [EmailAddress] public string Email { get; set; }
-        [Required] public string UserName { get; set; }
-        [Required] public string Password { get; set; }
 
+        [Required] [EmailAddress] public string Email { get; set; }
+        [Required] public string Password { get; set; }
     }
 }

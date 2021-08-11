@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using TerminalCommands.Domain.Enums;
+using TerminalCommandsApi.Domain.Enums;
 
-namespace TerminalCommandsApi.Dto.Request
+namespace TerminalCommandsApi.Domain.Dto.Request
 {
     public class CommandCreateDto
     {

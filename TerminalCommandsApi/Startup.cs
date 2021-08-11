@@ -11,10 +11,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
-using TerminalCommands.Data;
 using TerminalCommandsApi.Configurations;
 using TerminalCommandsApi.Data;
+using TerminalCommandsApi.Data.DbContext;
+using TerminalCommandsApi.Domain.Interfaces;
 using TerminalCommandsApi.Extensions;
+using TerminalCommandsApi.Services;
 
 namespace TerminalCommandsApi
 {
@@ -31,6 +33,18 @@ namespace TerminalCommandsApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
+            var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
+            var tokenValidationParams = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                RequireExpirationTime = false
+            };
+
+            services.AddSingleton(tokenValidationParams);
 
             services.AddDbContext<CommanderContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("CommanderConnection")));
@@ -49,27 +63,28 @@ namespace TerminalCommandsApi
                 })
                 .AddJwtBearer(jwt =>
                 {
-                    var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
-
                     jwt.SaveToken = true;
-                    jwt.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ValidateLifetime = true,
-                        RequireExpirationTime = false
-                    };
+                    jwt.TokenValidationParameters = tokenValidationParams;
                 });
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options =>
+                {
+                    options.SignIn.RequireConfirmedAccount = true;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequiredLength = 0;
+                    options.Password.RequiredUniqueChars = 0;
+                    options.Password.RequireNonAlphanumeric = false;
+                })
                 .AddEntityFrameworkStores<CommanderContext>();
+
             services.AddLogging();
             services.AddScoped<ICommanderRepo, SqlCommanderRepo>();
+            services.AddScoped<IAuthService, AuthService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "TerminalCommandsApi", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TerminalCommandsApi", Version = "v1" });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description =
@@ -88,14 +103,14 @@ namespace TerminalCommandsApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-               
             }
+
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TerminalCommandsApi v1"));
 
             app.ConfigureCommanderExceptionHandler();
             app.UseHttpsRedirection();
-           
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

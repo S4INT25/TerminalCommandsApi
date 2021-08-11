@@ -3,7 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using TerminalCommands.Domain.Models;
+using TerminalCommandsApi.Domain.Models;
 
 namespace TerminalCommandsApi.Middlewares
 {

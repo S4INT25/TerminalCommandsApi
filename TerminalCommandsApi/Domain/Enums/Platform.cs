@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace TerminalCommands.Domain.Enums
+namespace TerminalCommandsApi.Domain.Enums
 {
     [JsonConverter(typeof(StringEnumConverter))]
     public enum Platform

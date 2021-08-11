@@ -1,4 +1,4 @@
-﻿namespace TerminalCommandsApi.Dto.Response
+﻿namespace TerminalCommandsApi.Domain.Dto.Response
 {
     public class SuccessDto
     {

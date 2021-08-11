@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using TerminalCommands.Data;
-using TerminalCommands.Domain.Models;
-using TerminalCommands.Dto;
-using TerminalCommandsApi.Dto.Request;
+using TerminalCommandsApi.Data;
+using TerminalCommandsApi.Domain.Dto.Request;
+using TerminalCommandsApi.Domain.Dto.Response;
+using TerminalCommandsApi.Domain.Interfaces;
+using TerminalCommandsApi.Domain.Models;
 
 namespace TerminalCommandsApi.Controllers
 

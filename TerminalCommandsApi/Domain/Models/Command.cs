@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using TerminalCommands.Domain.Enums;
+using TerminalCommandsApi.Domain.Enums;
 
-namespace TerminalCommands.Domain.Models
+namespace TerminalCommandsApi.Domain.Models
 {
 
 
