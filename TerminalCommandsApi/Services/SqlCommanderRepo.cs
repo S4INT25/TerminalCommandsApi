@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.SignalR;
 using TerminalCommandsApi.Data.DbContext;
 using TerminalCommandsApi.Domain.Interfaces;
 using TerminalCommandsApi.Domain.Models;
+using TerminalCommandsApi.Hubs;
 
 namespace TerminalCommandsApi.Services
 {

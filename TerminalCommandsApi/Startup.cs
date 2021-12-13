@@ -16,6 +16,7 @@ using TerminalCommandsApi.Data;
 using TerminalCommandsApi.Data.DbContext;
 using TerminalCommandsApi.Domain.Interfaces;
 using TerminalCommandsApi.Extensions;
+using TerminalCommandsApi.Hubs;
 using TerminalCommandsApi.Services;
 
 namespace TerminalCommandsApi
@@ -32,6 +33,7 @@ namespace TerminalCommandsApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
             services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
             var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
             var tokenValidationParams = new TokenValidationParameters
@@ -78,7 +80,8 @@ namespace TerminalCommandsApi
                 })
                 .AddEntityFrameworkStores<CommanderContext>();
 
-            services.AddLogging();
+            services.AddLogging();  
+          
             services.AddScoped<ICommanderRepo, SqlCommanderRepo>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -118,6 +121,7 @@ namespace TerminalCommandsApi
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<DataBaseMessageHub>("databaseHub");
                 endpoints.MapControllers();
             });
         }

@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using TerminalCommandsApi.Domain.Dto.Request;
 using TerminalCommandsApi.Domain.Interfaces;
+using TerminalCommandsApi.Hubs;
 
 
 namespace TerminalCommandsApi.Controllers
@@ -11,12 +13,14 @@ namespace TerminalCommandsApi.Controllers
     public class AuthorizationController : ControllerBase
     {
 
+        private readonly IHubContext<DataBaseMessageHub, IDataBaseHub> _hubContext;
         private readonly IAuthService _authService;
 
         public AuthorizationController(
-            IAuthService service)
+            IAuthService service, IHubContext<DataBaseMessageHub, IDataBaseHub> hubContext)
         {
             _authService = service;
+            _hubContext = hubContext;
         }
 
         [HttpPost]

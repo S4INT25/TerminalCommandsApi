@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TerminalCommandsApi.Domain;
+
 using TerminalCommandsApi.Domain.Models;
 
 namespace TerminalCommandsApi.Data.DbContext
