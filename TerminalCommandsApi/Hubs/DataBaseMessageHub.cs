@@ -1,10 +1,12 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Mapster;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using TerminalCommandsApi.Data.DbContext;
 using TerminalCommandsApi.Domain.Dto.Response;
+using TerminalCommandsApi.Extensions;
 
 
 namespace TerminalCommandsApi.Hubs
@@ -24,7 +26,7 @@ namespace TerminalCommandsApi.Hubs
         public async Task SendAllCommands()
         {
             var commands = await _dbContext.Commands
-                .ProjectToType<CommandReadDto>()
+                .Select(x=>x.ToReadDto())
                 .ToListAsync();
 
             await Clients.All.GetAllCommands(commands);

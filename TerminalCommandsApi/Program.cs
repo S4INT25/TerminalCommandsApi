@@ -8,7 +8,7 @@ using TerminalCommandsApi.Routes;
 
 
 var builder = WebApplication.CreateBuilder(args);
-//services configuration
+
 
 builder.Services.AddServices(builder.Configuration);
 
