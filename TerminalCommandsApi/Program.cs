@@ -1,26 +1,43 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using TerminalCommandsApi.Configurations;
+using TerminalCommandsApi.Extensions;
+using TerminalCommandsApi.Hubs;
+using TerminalCommandsApi.Routes;
 
-namespace TerminalCommandsApi
+
+var builder = WebApplication.CreateBuilder(args);
+//services configuration
+
+builder.Services.AddServices(builder.Configuration);
+
+
+var app = builder.Build();
+
+if (builder.Environment.IsDevelopment())
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TerminalCommandsApi v1"));
 }
+
+
+app.ConfigureCommanderExceptionHandler();
+
+app.UseHttpsRedirection();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapHub<DataBaseMessageHub>("databaseHub");
+
+app.MapControllers();
+
+app.MapGroup("api/auth").MapAuthEndpoints();
+
+app.MapGroup("api/commands")
+    .MapCommandRoutes()
+    .RequireAuthorization();
+
+
+app.Run();

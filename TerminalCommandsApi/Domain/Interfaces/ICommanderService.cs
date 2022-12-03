@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TerminalCommandsApi.Domain.Models;
 
 namespace TerminalCommandsApi.Domain.Interfaces
 {
-    public interface ICommanderRepo
+    public interface ICommanderService
     {
-        ICollection<Command> GetCommands();
-        Command GetCommandById(int id);
+        Task<ICollection<Command>> GetCommands();
+        Task<Command> GetCommandById(int id);
 
         void CreateCommand(Command command);
 

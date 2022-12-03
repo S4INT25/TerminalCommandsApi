@@ -1,32 +1,33 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.SignalR;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TerminalCommandsApi.Data.DbContext;
 using TerminalCommandsApi.Domain.Interfaces;
 using TerminalCommandsApi.Domain.Models;
-using TerminalCommandsApi.Hubs;
+
 
 namespace TerminalCommandsApi.Services
 {
-    public class SqlCommanderRepo : ICommanderRepo
+    public class CommanderService : ICommanderService
     {
         private readonly CommanderContext _context;
 
 
-        public SqlCommanderRepo(CommanderContext context)
+        public CommanderService(CommanderContext context)
         {
             _context = context;
         }
 
-        public ICollection<Command> GetCommands()
+        public async Task<ICollection<Command>> GetCommands()
         {
-            return _context.Commands.ToList();
+            return await _context.Commands.ToListAsync();
         }
 
-        public Command GetCommandById(int id)
+        public async Task<Command> GetCommandById(int id)
         {
-            return _context.Commands.FirstOrDefault(command => command.Id.Equals(id));
+            return await _context.Commands.FirstOrDefaultAsync(command => command.Id.Equals(id));
         }
 
         public void CreateCommand(Command command)

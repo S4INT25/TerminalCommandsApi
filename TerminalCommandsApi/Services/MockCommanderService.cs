@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TerminalCommandsApi.Domain.Enums;
 using TerminalCommandsApi.Domain.Interfaces;
 using TerminalCommandsApi.Domain.Models;
 
 namespace TerminalCommandsApi.Services
 {
-    public class MockCommanderRepo : ICommanderRepo
+    public class MockCommanderService : ICommanderService
     {
 
         private readonly List<Command> _commands = new()
@@ -16,14 +17,15 @@ namespace TerminalCommandsApi.Services
         };
 
 
-        public ICollection<Command> GetCommands()
+        public Task<ICollection<Command>> GetCommands()
         {
-            return _commands;
+            throw new System.NotImplementedException();
         }
 
-        public Command GetCommandById(int id)
+        public Task<Command> GetCommandById(int id)
         {
-            return _commands.Find(command => command.Id.Equals(id));
+           
+            throw new System.NotImplementedException();
         }
 
         public void CreateCommand(Command command)
