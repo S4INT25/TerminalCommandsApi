@@ -15,7 +15,6 @@ namespace TerminalCommandsApi.Hubs
 
         private readonly CommanderContext _dbContext;
 
-
         public DataBaseMessageHub(CommanderContext dbContext)
         {
             _dbContext = dbContext;

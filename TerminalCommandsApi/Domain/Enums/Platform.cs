@@ -1,13 +1,12 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
-namespace TerminalCommandsApi.Domain.Enums
+
+namespace TerminalCommandsApi.Domain.Enums;
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
+public enum Platform
 {
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum Platform
-    {
-        Linux,
-        Windows,
-        Mac
-    }
+    Linux,
+    Windows,
+    Mac
 }

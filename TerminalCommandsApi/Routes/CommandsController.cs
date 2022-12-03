@@ -1,10 +1,9 @@
-using System.Collections.Generic;
+using System.Linq;
 using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using TerminalCommandsApi.Domain.Dto.Request;
-using TerminalCommandsApi.Domain.Dto.Response;
 using TerminalCommandsApi.Domain.Interfaces;
 using TerminalCommandsApi.Domain.Models;
 using TerminalCommandsApi.Extensions;
@@ -20,7 +19,9 @@ public static class CommandRouteHandlers
         group.MapGet("", async (ICommanderService commanderRepo) =>
         {
             var commands = await commanderRepo.GetCommands();
-            return commands.Count.Equals(0) ? Results.NoContent() : Results.Ok(commands.Adapt<ICollection<CommandReadDto>>());
+            var commandsDto = commands.Select(x => x.ToReadDto()).ToList();
+
+            return Results.Ok(commandsDto);
         }).WithDescription("Get all commands");
 
 
@@ -28,7 +29,7 @@ public static class CommandRouteHandlers
         {
             var command = await commanderService.GetCommandById(id);
 
-            return Results.Ok(command.Adapt<CommandReadDto>());
+            return Results.Ok(command.ToReadDto());
         }).WithDescription("Get a command by id");
 
         group.MapPost("", (CommandCreateDto commandCreateDto, HttpContext ctx, ICommanderService commanderService) =>
@@ -44,7 +45,7 @@ public static class CommandRouteHandlers
 
             commanderService.CreateCommand(command);
 
-            return !commanderService.SaveChanges() ? Results.BadRequest() : Results.Created($"api/{command.Id}", command.Adapt<CommandReadDto>());
+            return !commanderService.SaveChanges() ? Results.BadRequest() : Results.Created($"api/{command.Id}", command.ToReadDto());
         }).WithDescription("Create a new command");
 
         group.MapPut("{id:int}", async (int id, CommandUpdateDto commandUpdateDto, ICommanderService commanderService) =>
@@ -54,7 +55,7 @@ public static class CommandRouteHandlers
             commandUpdateDto.Adapt(command);
 
             commanderService.SaveChanges();
-            return Results.NoContent();
+            return Results.Ok("Command updated");
         }).WithDescription("Update a command");
 
 
@@ -64,7 +65,7 @@ public static class CommandRouteHandlers
 
             commanderService.DeleteCommand(command);
             commanderService.SaveChanges();
-            return Results.NoContent();
+            return Results.Ok("Command deleted");
         }).WithDescription("Delete a command");
 
         return group;

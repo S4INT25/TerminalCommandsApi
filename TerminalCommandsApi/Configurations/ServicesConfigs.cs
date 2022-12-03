@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json.Serialization;
 using TerminalCommandsApi.Data.DbContext;
 using TerminalCommandsApi.Domain.Interfaces;
 using TerminalCommandsApi.Services;
