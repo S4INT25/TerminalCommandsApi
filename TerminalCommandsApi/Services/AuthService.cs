@@ -70,7 +70,7 @@ namespace TerminalCommandsApi.Services
             await _dbContext.RefreshTokens.AddAsync(refreshToken);
             await _dbContext.SaveChangesAsync();
 
-            return new AuthResult()
+            return new AuthResult
             {
                 Token = jwtToken,
                 Success = true,
@@ -283,7 +283,7 @@ namespace TerminalCommandsApi.Services
                 return new AuthResult()
                 {
                     Success = false,
-                    Errors = new List<string>()
+                    Errors = new List<string>
                     {
                         "Something went wrong."
                     }

@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,9 @@ public static class ServicesConfigs
     public static void AddServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSignalR();
+
         services.Configure<JwtConfig>(configuration.GetSection("JwtConfig"));
+
         var key = Encoding.ASCII.GetBytes(configuration["JwtConfig:Secret"] ?? string.Empty);
 
         var tokenValidationParams = new TokenValidationParameters
@@ -36,13 +39,12 @@ public static class ServicesConfigs
         services.AddSingleton(tokenValidationParams);
 
         services.AddDbContext<CommanderContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("CommanderConnection") ?? string.Empty));
+            options.UseSqlite("Data Source=terminalCommands.db"));
 
-        services.AddControllers().AddNewtonsoftJson(options =>
+        services.AddControllers().AddJsonOptions(options =>
         {
-            options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
-
 
         services.AddAuthentication(options =>
             {
@@ -68,11 +70,10 @@ public static class ServicesConfigs
                 options.Password.RequireNonAlphanumeric = false;
             })
             .AddEntityFrameworkStores<CommanderContext>();
-        
+
 
         services.AddScoped<ICommanderService, CommanderService>();
         services.AddScoped<IAuthService, AuthService>();
-        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
         {
@@ -83,8 +84,24 @@ public static class ServicesConfigs
                     "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer 12345abcdef\"",
                 Name = "Authorization",
                 In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey,
+                Type = SecuritySchemeType.Http,
+                BearerFormat = "JWT",
                 Scheme = "Bearer"
+            });
+
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
             });
         });
     }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TerminalCommandsApi.Data.DbContext;
@@ -25,7 +24,7 @@ namespace TerminalCommandsApi.Services
             return await _context.Commands.ToListAsync();
         }
 
-        public async Task<Command> GetCommandById(int id)
+        public async Task<Command?> GetCommandById(int id)
         {
             return await _context.Commands.FirstOrDefaultAsync(command => command.Id.Equals(id));
         }
@@ -42,7 +41,7 @@ namespace TerminalCommandsApi.Services
 
         public bool SaveChanges()
         {
-            return (_context.SaveChanges() >= 0);
+            return _context.SaveChanges() >= 0;
         }
 
         public void DeleteCommand(Command command)

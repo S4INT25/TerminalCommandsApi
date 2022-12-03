@@ -1,9 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
+using Mapster;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using TerminalCommandsApi.Data.DbContext;
 using TerminalCommandsApi.Domain.Dto.Response;
 
@@ -15,20 +14,21 @@ namespace TerminalCommandsApi.Hubs
     {
 
         private readonly CommanderContext _dbContext;
-        private readonly IMapper _mapper;
 
-        public DataBaseMessageHub(CommanderContext dbContext, IMapper mapper)
+
+        public DataBaseMessageHub(CommanderContext dbContext)
         {
             _dbContext = dbContext;
-            _mapper = mapper;
         }
 
 
-        public void SendAllCommands()
+        public async Task SendAllCommands()
         {
-            var commands = _dbContext.Commands.ToList();
+            var commands = await _dbContext.Commands
+                .ProjectToType<CommandReadDto>()
+                .ToListAsync();
 
-            Clients.All.GetAllCommands(_mapper.Map<List<CommandReadDto>>(commands));
+            await Clients.All.GetAllCommands(commands);
         }
 
         public override Task OnConnectedAsync()

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using TerminalCommandsApi.Configurations;
@@ -18,7 +19,7 @@ if (builder.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TerminalCommandsApi v1"));
+    app.UseSwaggerUI();
 }
 
 
@@ -37,7 +38,11 @@ app.MapGroup("api/auth").MapAuthEndpoints();
 
 app.MapGroup("api/commands")
     .MapCommandRoutes()
-    .RequireAuthorization();
+    .RequireAuthorization(policyBuilder =>
+    {
+        policyBuilder.AuthenticationSchemes = new[] { JwtBearerDefaults.AuthenticationScheme };
+        policyBuilder.RequireAuthenticatedUser();
+    });
 
 
 app.Run();

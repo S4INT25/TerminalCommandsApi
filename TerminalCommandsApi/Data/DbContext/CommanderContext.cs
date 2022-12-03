@@ -1,19 +1,16 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
 using TerminalCommandsApi.Domain.Models;
 
-namespace TerminalCommandsApi.Data.DbContext
+namespace TerminalCommandsApi.Data.DbContext;
+
+public sealed class CommanderContext : IdentityDbContext
 {
-    public class CommanderContext : IdentityDbContext
+    public CommanderContext(DbContextOptions<CommanderContext> options) : base(options)
     {
-        public CommanderContext(DbContextOptions<CommanderContext> options) : base(options)
-        {
-        }
-
-        public DbSet<Command> Commands { get; set; }
-        public DbSet<RefreshToken> RefreshTokens { get; set; }
-
-
+        Database.EnsureCreated();
     }
+
+    public DbSet<Command> Commands => Set<Command>();
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 }
